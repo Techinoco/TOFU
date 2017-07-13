@@ -105,7 +105,7 @@
 `define WORD_BIT_MSB                    4
 `define WORD_BIT_B                      `WORD_BIT_MSB:0
 
-`define WORD_2_BIT                      6 
+`define WORD_2_BIT                      6
 `define WORD_2_BIT_W                    6
 `define WORD_2_BIT_MSB                  5
 `define WORD_2_BIT_B                    `WORD_2_BIT_MSB:0
@@ -172,10 +172,10 @@
 `define CONF_OP_NET_MSB                19 ///////////////
 `define CONF_OP_NET_B                  `CONF_OP_NET_MSB:0
 
-// following value especially used by CONF_CTRL.v 
+// following value especially used by CONF_CTRL.v
 `define CONF_ALU_RNG                     9:6
 `define CONF_SEL_A_RNG                   5:3
-`define CONF_SEL_B_RNG                   2:0 
+`define CONF_SEL_B_RNG                   2:0
 `define CONF_SE_RNG                      9:0 //NSEW=3232
 
 `define CONF_SE_A_RNG                   20:9 ///////////////
@@ -377,40 +377,6 @@
 `define CONF_SW_DL_SW           `CONF_SW_W'b0110
 `define CONF_SW_CONST_A           `CONF_SW_W'b0111
 `define CONF_SW_CONST_B           `CONF_SW_W'b1000
-
-`define CONF_NORTH_SW_ALU             `CONF_SW_W'b000
-`define CONF_NORTH_SW_SOUTH           `CONF_SW_W'b001
-`define CONF_NORTH_SW_EAST            `CONF_SW_W'b010
-`define CONF_NORTH_SW_WEST            `CONF_SW_W'b011
-`define CONF_NORTH_SW_DL_S            `CONF_SW_W'b100
-`define CONF_NORTH_SW_DL_SE            `CONF_SW_W'b101
-`define CONF_NORTH_SW_DL_SW           `CONF_SW_W'b110
-`define CONF_NORTH_SW_CONST           `CONF_SW_W'b111
-
-`define CONF_SOUTH_SW_ALU             `CONF_SW_W'b00
-`define CONF_SOUTH_SW_NORTH           `CONF_SW_W'b01
-`define CONF_SOUTH_SW_EAST            `CONF_SW_W'b10
-`define CONF_SOUTH_SW_WEST            `CONF_SW_W'b11
-
-`define CONF_EAST_SW_ALU              `CONF_SW_W'b000
-`define CONF_EAST_SW_SOUTH            `CONF_SW_W'b001
-`define CONF_EAST_SW_WEST             `CONF_SW_W'b010
-`define CONF_EAST_SW_DL_S             `CONF_SW_W'b011
-`define CONF_EAST_SW_DL_SE             `CONF_SW_W'b100
-`define CONF_EAST_SW_DL_SW            `CONF_SW_W'b101
-
-//`define CONF_EAST_SW_DL_S             `CONF_SW_W'b010
-//`define CONF_EAST_SW_DL_W             `CONF_SW_W'b010
-//`define CONF_EAST_SW_DL_SS            `CONF_SW_W'b010
-
-`define CONF_WEST_SW_SOUTH            `CONF_SW_W'b00
-`define CONF_WEST_SW_EAST             `CONF_SW_W'b01
-`define CONF_WEST_SW_DL_S             `CONF_SW_W'b10
-`define CONF_WEST_SW_DL_SE            `CONF_SW_W'b11
-
-
-
-
 
 ////////////////////////////////////////////////////////////////
 //    GLOBAL ADDRESS AND DATA
