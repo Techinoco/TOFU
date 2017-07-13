@@ -1,0 +1,13 @@
+clk M3 bottom
+rst_n M3 bottom
+i_cbank M3 bottom
+i_run M3 bottom
+i_exwe M3 bottom
+i_exre M3 bottom
+i_exwd[24:0] M4 left
+i_exromul[19:0] M4 left
+i_exa[11:0] M4 left
+i_dbgsel[2:0] M4 right
+o_exrd[24:0] M7 right
+o_dbgdat[3:0] M7 right
+o_done M3 bottom

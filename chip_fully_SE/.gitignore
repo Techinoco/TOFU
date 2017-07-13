@@ -1,0 +1,4 @@
+*_out.v
+*_net.v
+*.sdf
+*.spef.*

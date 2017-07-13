@@ -1,0 +1,28 @@
+//
+// File created by:  ncverilog
+// Do not modify this file
+//
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/cma.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/PE_ARRAY.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/COL.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/PE.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/ALU.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/ALU_SEL.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/FUNC.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/SE.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/PRIMITIVE.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/CONF_CONST_CTRL.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/CONF_CTRL.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/CONST_CTRL.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/mc.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/ifex.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/imem.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/rfile.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/ldadd.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/ldtbl.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/stadd.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/dbank.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/bank.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/dmanu8.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/dmem.v
+/home/wasmii4/usr/yfujita/cma/cma12x8/design/DIV.v

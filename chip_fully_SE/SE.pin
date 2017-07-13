@@ -1,0 +1,14 @@
+CONF_SE[9:0] M3 bottom
+ALU_OUT[24:0] M3 top
+IN_NORTH[24:0] M3 top
+IN_SOUTH[24:0] M3 bottom
+IN_EAST[24:0] M4 left
+IN_WEST[24:0] M4 right
+IN_DL_S[24:0] M3 bottom
+IN_DL_W[24:0] M4 left
+IN_DL_SS[24:0] M3 bottom
+IN_CONST_A[24:0] M3 bottom
+OUT_NORTH[24:0] M3 top
+OUT_SOUTH[24:0] M3 bottom
+OUT_EAST[24:0] M4 right
+OUT_WEST[24:0] M4 left

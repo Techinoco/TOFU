@@ -1,0 +1,39 @@
+ncverilog(64): 10.20-s131: (c) Copyright 1995-2013 Cadence Design Systems, Inc.
+TOOL:	ncverilog	10.20-s131: Started on Apr 04, 2016 at 16:13:04 JST
+ncverilog
+	+access+r
+	TEST_D_FF.v
+	D_FF_LATCH.v
+	Switch_clk.v
+Recompiling... reason: file './D_FF_LATCH.v' is newer than expected.
+	expected: Mon Apr  4 16:12:35 2016
+	actual:   Mon Apr  4 16:13:02 2016
+file: D_FF_LATCH.v
+	module worklib.D_FF_LATCH:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.D_FF_LATCH:v <0x3fad86a9>
+			streams:   1, words:   170
+	Loading native compiled code:     .................... Done
+	Building instance specific data structures.
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 5       4
+		Registers:               4       4
+		Scalar wires:           11       -
+		Vectored wires:          1       -
+		Always blocks:           2       2
+		Initial blocks:          1       1
+		Cont. assignments:       3       5
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.ff_tb:v
+Loading snapshot worklib.ff_tb:v .................... Done
+ncsim> source /home/vdec/cadence/IUS-10.20.131/tools/inca/files/ncsimrc
+ncsim> run
+Simulation complete via $finish(1) at time 10500 NS + 0
+./TEST_D_FF.v:38       $finish;
+ncsim> exit
+TOOL:	ncverilog	10.20-s131: Exiting on Apr 04, 2016 at 16:13:05 JST  (total: 00:00:01)

@@ -1,0 +1,56 @@
+--- stadd.v	2015-10-28 13:29:33.019559924 +0900
++++ /home/wasmii4/usr/masuyama/CMA/cma_ando/chip/stadd.v	2015-10-27 06:44:31.904020141 +0900
+@@ -51,24 +51,21 @@
+       if(!rst_n) pr0 <= 0;
+       else begin
+ 	 if(st_add_op_r) pr0 <= {1'b1,func_r,rd1_r};
+-	 else if (ld_st_add_op_r) pr0 <= {1'b1, func_st_r, rd1_st_r};
++			/else if (ld_st_add_op_r) pr0 <= {1'b1, func_st_r, rd1_st_r};
+ 	 else pr0 <= 0;
++			
+ 	 case(delay_r)
+-	   1: begin pr1 <= pr0; pr2 <= 0  ; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4;
+-	      pr6 <= pr5; pr7 <= pr6; end
+-	   2: begin pr1 <= pr0; pr2 <= pr1; pr3 <= 0  ; pr4 <= pr3; pr5 <= pr4;
+-	      pr6 <= pr5; pr7 <= pr6; end
+-	   3: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= 0  ; pr5 <= pr4;
+-	      pr6 <= pr5; pr7 <= pr6; end
+-	   4: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= 0  ;
+-	      pr6 <= pr5; pr7 <= pr6; end
+-	   5: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4;
+-	      pr6 <= 0  ; pr7 <= pr6; end
+-	   6: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4;
+-	      pr6 <= pr5; pr7 <= 0  ; end
+-	   default: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4;
+-	      pr6 <= pr5; pr7 <= pr6; end
++			1: begin pr1 <= pr0; pr2 <= 0  ; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4; pr6 <= pr5; pr7 <= pr6; end
++			//2: begin pr1 <= pr0; pr2 <= pr3; pr3 <= 0  ; pr4 <= pr3; pr5 <= pr4; pr6 <= pr5; pr7 <= pr6; end
++			2: begin pr1 <= pr0; pr2 <= pr1; pr3 <= 0  ; pr4 <= pr3; pr5 <= pr4; pr6 <= pr5; pr7 <= pr6; end
++			3: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= 0  ; pr5 <= pr4; pr6 <= pr5; pr7 <= pr6; end
++			4: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= 0  ; pr6 <= pr5; pr7 <= pr6; end
++			5: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4; pr6 <= 0  ; pr7 <= pr6; end
++			6: begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4; pr6 <= pr5; pr7 <= 0  ; end
++			default: 
++			   begin pr1 <= pr0; pr2 <= pr1; pr3 <= pr2; pr4 <= pr3; pr5 <= pr4; pr6 <= pr5; pr7 <= pr6; end
+ 	 endcase
++			
+       end
+    end
+ 
+@@ -93,13 +90,9 @@
+    		 first == 1 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] :
+    		 first == 2 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] :
+    		 first == 3 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] : 
+-   		 first == 4 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | 
+-   		 pr4[`REG_W+`CPU_W] :
+-   		 first == 5 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | 
+-   		 pr4[`REG_W+`CPU_W] | pr5[`REG_W+`CPU_W] :
+-   		 first == 6 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | 
+-   		 pr4[`REG_W+`CPU_W] | pr5[`REG_W+`CPU_W] | pr6[`REG_W+`CPU_W] :working;
+-   // assign lock = 0;
++   		 first == 4 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | pr4[`REG_W+`CPU_W] :
++   		 first == 5 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | pr4[`REG_W+`CPU_W] | pr5[`REG_W+`CPU_W] :
++   		 first == 6 ? pr0[`REG_W+`CPU_W] | pr1[`REG_W+`CPU_W] | pr2[`REG_W+`CPU_W] | pr3[`REG_W+`CPU_W] | pr4[`REG_W+`CPU_W] | pr5[`REG_W+`CPU_W] | pr6[`REG_W+`CPU_W] :working;
+ 
+    always @(posedge clk or negedge rst_n) begin
+       if(!rst_n) memwe <= 1'b0;

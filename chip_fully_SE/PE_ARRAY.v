@@ -1,0 +1,462 @@
+`include "./SMA.h"
+
+module PE_ARRAY (
+		 input  CLK,
+		 input  [`CONF_ALU_96_B  ] CONF_ALU,
+		 input  [`CONF_SEL_96_B  ] CONF_SEL_A,
+		 input  [`CONF_SEL_96_B  ] CONF_SEL_B,
+		 input  [`CONF_SE_96_B   ] CONF_SE,
+		 input  CONF_SEL_DR_01, 
+		 input  CONF_SEL_DR_12, 
+		 input  CONF_SEL_DR_23,
+		 input  CONF_SEL_DR_34, 
+		 input  CONF_SEL_DR_45, 
+		 input  CONF_SEL_DR_56,
+		 input  CONF_SEL_DR_67,
+
+		 input  [`DATA_12_B      ] IN_SOUTH,
+		 input  [`CONST_DATA_8_B ] IN_CONST_A,
+		 input  [`CONST_DATA_8_B ] IN_CONST_B,
+
+		 output [`DATA_12_B       ] OUT_SOUTH
+		 );
+   
+
+   
+   //////// WIRE DECLARATION ////////////////////////////////////
+   // VERTICAL CONNECTION
+   wire [`DATA_12_B    ] 		    CH_A_IN_00,
+					    CH_A_00_DR, CH_A_DR_01,
+					    CH_A_01_DR, CH_A_DR_02,
+					    CH_A_02_DR, CH_A_DR_03, 
+					    CH_A_03_DR, CH_A_DR_04, 
+					    CH_A_04_DR, CH_A_DR_05, 
+					    CH_A_05_DR, CH_A_DR_06, 
+					    CH_A_06_DR, CH_A_DR_07, 
+					    CH_A_07_XX;
+   assign CH_A_IN_00 = IN_SOUTH;
+   //assign CH_A_07_XX = `DATA_8_W'd0; //160713
+   
+   wire [`DATA_12_B    ] 		    CH_A_XX_07, CH_A_07_06, CH_A_06_05, CH_A_05_04,
+					    CH_A_04_03, CH_A_03_02, CH_A_02_01, CH_A_01_00, CH_A_00_OUT;
+   assign OUT_SOUTH = CH_A_00_OUT;
+   assign CH_A_XX_07 = `DATA_8_W'd0;
+   
+   // Direct Link
+   wire [`DATA_12_B    ] 		    DL_N_XX_00,
+					    DL_N_00_DR, DL_N_DR_01,
+					    DL_N_01_DR, DL_N_DR_02, 
+					    DL_N_02_DR, DL_N_DR_03,
+					    DL_N_03_DR, DL_N_DR_04,
+					    DL_N_04_DR, DL_N_DR_05,
+					    DL_N_05_DR, DL_N_DR_06,
+					    DL_N_06_DR, DL_N_DR_07,
+					    DL_N_07_XX;
+   wire [`DATA_11_B    ] 		    DL_NW_XX_00,
+					    DL_NW_00_DR, DL_NW_DR_01,
+					    DL_NW_01_DR, DL_NW_DR_02, 
+					    DL_NW_02_DR, DL_NW_DR_03,
+					    DL_NW_03_DR, DL_NW_DR_04,
+					    DL_NW_04_DR, DL_NW_DR_05,
+					    DL_NW_05_DR, DL_NW_DR_06,
+					    DL_NW_06_DR, DL_NW_DR_07,
+					    DL_NW_07_XX;
+   wire [`DATA_11_B    ] 		    DL_NE_XX_00,
+					    DL_NE_00_DR, DL_NE_DR_01,
+					    DL_NE_01_DR, DL_NE_DR_02, 
+					    DL_NE_02_DR, DL_NE_DR_03,
+					    DL_NE_03_DR, DL_NE_DR_04,
+					    DL_NE_04_DR, DL_NE_DR_05,
+					    DL_NE_05_DR, DL_NE_DR_06,
+					    DL_NE_06_DR, DL_NE_DR_07,
+					    DL_NE_07_XX;
+
+
+   // Invalidation
+   assign DL_N_XX_00 = `DATA_8_W'd0;
+   //assign DL_N_07_XX = `DATA_8_W'd0; //160713
+   assign DL_NW_XX_00 = `DATA_8_W'd0;
+   //assign DL_NW_07_XX = `DATA_8_W'd0; //160713
+   assign DL_NE_XX_00 = `DATA_8_W'd0;
+   //assign DL_NE_07_XX = `DATA_8_W'd0; //160713
+
+   // CONFs
+   wire [`CONF_ALU_12_B] CONF_ALU_00, CONF_ALU_01, CONF_ALU_02, CONF_ALU_03,
+   					     CONF_ALU_04, CONF_ALU_05, CONF_ALU_06, CONF_ALU_07;
+   assign {CONF_ALU_07, CONF_ALU_06, CONF_ALU_05, CONF_ALU_04,
+	   CONF_ALU_03, CONF_ALU_02, CONF_ALU_01, CONF_ALU_00} = CONF_ALU;
+   
+   wire [`CONF_SEL_12_B] CONF_SEL_A_00, CONF_SEL_A_01, CONF_SEL_A_02, CONF_SEL_A_03,
+   					     CONF_SEL_A_04, CONF_SEL_A_05, CONF_SEL_A_06, CONF_SEL_A_07, CONF_SEL_A_XX;
+   assign {CONF_SEL_A_07, CONF_SEL_A_06, CONF_SEL_A_05, CONF_SEL_A_04,
+	   CONF_SEL_A_03, CONF_SEL_A_02, CONF_SEL_A_01, CONF_SEL_A_00} = CONF_SEL_A;
+   assign CONF_SEL_A_XX = `CONF_SEL_12_W'b0;
+   wire [`CONF_SEL_12_B] CONF_SEL_B_00, CONF_SEL_B_01, CONF_SEL_B_02, CONF_SEL_B_03,
+   					     CONF_SEL_B_04, CONF_SEL_B_05, CONF_SEL_B_06, CONF_SEL_B_07, CONF_SEL_B_XX;
+   assign {CONF_SEL_B_07, CONF_SEL_B_06, CONF_SEL_B_05, CONF_SEL_B_04,
+	   CONF_SEL_B_03, CONF_SEL_B_02, CONF_SEL_B_01, CONF_SEL_B_00} = CONF_SEL_B;
+   assign CONF_SEL_B_XX = `CONF_SEL_12_W'b0;
+   wire [`CONF_SE_12_B] CONF_SE_00, CONF_SE_01, CONF_SE_02, CONF_SE_03,
+   					    CONF_SE_04, CONF_SE_05, CONF_SE_06, CONF_SE_07, CONF_SE_XX;
+   assign {CONF_SE_07, CONF_SE_06, CONF_SE_05, CONF_SE_04,
+	   CONF_SE_03, CONF_SE_02, CONF_SE_01, CONF_SE_00} = CONF_SE;
+   assign CONF_SE_XX = `CONF_SE_12_W'b0;
+
+   // about CONST DATA
+   wire [`CONST_DATA_B] CONST_A_0, CONST_A_1, CONST_A_2, CONST_A_3, CONST_A_4, CONST_A_5,
+			CONST_A_6, CONST_A_7;
+   wire [`DATA_B] CONST_A_0_EXT, CONST_A_1_EXT, CONST_A_2_EXT, CONST_A_3_EXT, CONST_A_4_EXT, CONST_A_5_EXT,
+			CONST_A_6_EXT, CONST_A_7_EXT;
+   wire [`CONST_DATA_B] CONST_B_0, CONST_B_1, CONST_B_2, CONST_B_3, CONST_B_4, CONST_B_5,
+			CONST_B_6, CONST_B_7;
+   wire [`DATA_B] CONST_B_0_EXT, CONST_B_1_EXT, CONST_B_2_EXT, CONST_B_3_EXT, CONST_B_4_EXT, CONST_B_5_EXT,
+			CONST_B_6_EXT, CONST_B_7_EXT;
+   assign {CONST_A_7, CONST_A_6, CONST_A_5, CONST_A_4,
+	   CONST_A_3, CONST_A_2, CONST_A_1, CONST_A_0} = IN_CONST_A;
+   assign {CONST_B_7, CONST_B_6, CONST_B_5, CONST_B_4,
+	   CONST_B_3, CONST_B_2, CONST_B_1, CONST_B_0} = IN_CONST_B;
+   
+   assign CONST_A_7_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_7};
+   assign CONST_A_6_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_6};
+   assign CONST_A_5_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_5};
+   assign CONST_A_4_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_4};
+   assign CONST_A_3_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_3};
+   assign CONST_A_2_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_2};
+   assign CONST_A_1_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_1};
+   assign CONST_A_0_EXT = {`CONST_DATA_EXT_W'd0, CONST_A_0};
+   assign CONST_B_7_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_7};
+   assign CONST_B_6_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_6};
+   assign CONST_B_5_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_5};
+   assign CONST_B_4_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_4};
+   assign CONST_B_3_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_3};
+   assign CONST_B_2_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_2};
+   assign CONST_B_1_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_1};
+   assign CONST_B_0_EXT = {`CONST_DATA_EXT_W'd0, CONST_B_0};
+
+   wire 				    clk_01, clk_12, clk_23, clk_34, clk_45, clk_56, clk_67;
+
+   Switch_clk sw01(.clk(CLK), .en(CONF_SEL_DR_01), .clk_af(clk_01));
+   Switch_clk sw12(.clk(CLK), .en(CONF_SEL_DR_12), .clk_af(clk_12));
+   Switch_clk sw23(.clk(CLK), .en(CONF_SEL_DR_23), .clk_af(clk_23));
+   Switch_clk sw34(.clk(CLK), .en(CONF_SEL_DR_34), .clk_af(clk_34));
+   Switch_clk sw45(.clk(CLK), .en(CONF_SEL_DR_45), .clk_af(clk_45));
+   Switch_clk sw56(.clk(CLK), .en(CONF_SEL_DR_56), .clk_af(clk_56));
+   Switch_clk sw67(.clk(CLK), .en(CONF_SEL_DR_67), .clk_af(clk_67));
+
+//////// INSTANTIATION ///////////////////////////////////////
+ROW ROW_07 (
+	.CONF_ALU		(CONF_ALU_07),
+	.CONF_SEL_A		(CONF_SEL_A_07),
+	.CONF_SEL_B		(CONF_SEL_B_07),
+	.CONF_SE		(CONF_SE_07),
+	.CONF_SEL_A_N	(CONF_SEL_A_XX),
+	.CONF_SEL_B_N	(CONF_SEL_B_XX),
+	.CONF_SE_N		(CONF_SE_XX),
+	.IN_NORTH		(CH_A_XX_07),
+	.IN_SOUTH		(CH_A_DR_07),
+	.IN_DL_S		(DL_N_DR_07),
+	.IN_DL_SW		(DL_NE_DR_07),
+	.IN_DL_SE		(DL_NW_DR_07),
+	.IN_CONST_A		(CONST_A_7_EXT),
+	.IN_CONST_B		(CONST_B_7_EXT),
+	.OUT_NORTH		(CH_A_07_XX),
+	.OUT_SOUTH		(CH_A_07_06),
+	.OUT_DL_N		(DL_N_07_XX),
+	.OUT_DL_NW		(DL_NW_07_XX),
+	.OUT_DL_NE		(DL_NE_07_XX)
+);
+
+Door_Reg12 DR_A_06_07(.CLK(clk_67), .EN(CONF_SEL_DR_67), .D(CH_A_06_DR), .Q(CH_A_DR_07));
+Door_Reg12 DR_N_06_07(.CLK(clk_67), .EN(CONF_SEL_DR_67), .D(DL_N_06_DR), .Q(DL_N_DR_07));
+Door_Reg11 DR_NW_06_07(.CLK(clk_67), .EN(CONF_SEL_DR_67), .D(DL_NW_06_DR), .Q(DL_NW_DR_07));
+Door_Reg11 DR_NE_06_07(.CLK(clk_67), .EN(CONF_SEL_DR_67), .D(DL_NE_06_DR), .Q(DL_NE_DR_07));
+
+ROW ROW_06 (
+	.CONF_ALU		(CONF_ALU_06),
+	.CONF_SEL_A		(CONF_SEL_A_06),
+	.CONF_SEL_B		(CONF_SEL_B_06),
+	.CONF_SE		(CONF_SE_06),
+	.CONF_SEL_A_N	(CONF_SEL_A_07),
+	.CONF_SEL_B_N	(CONF_SEL_B_07),
+	.CONF_SE_N		(CONF_SE_07),
+	.IN_NORTH		(CH_A_07_06),
+	.IN_SOUTH		(CH_A_DR_06),
+	.IN_DL_S		(DL_N_DR_06),
+	.IN_DL_SW		(DL_NE_DR_06),
+	.IN_DL_SE		(DL_NW_DR_06),
+	.IN_CONST_A		(CONST_A_6_EXT),
+	.IN_CONST_B		(CONST_B_6_EXT),
+	.OUT_NORTH		(CH_A_06_DR),
+	.OUT_SOUTH		(CH_A_06_05),
+	.OUT_DL_N		(DL_N_06_DR),
+	.OUT_DL_NW		(DL_NW_06_DR),
+	.OUT_DL_NE		(DL_NE_06_DR)
+);
+
+Door_Reg12 DR_A_05_06(.CLK(clk_56), .EN(CONF_SEL_DR_56), .D(CH_A_05_DR), .Q(CH_A_DR_06));
+Door_Reg12 DR_N_05_06(.CLK(clk_56), .EN(CONF_SEL_DR_56), .D(DL_N_05_DR), .Q(DL_N_DR_06));
+Door_Reg11 DR_NW_05_06(.CLK(clk_56), .EN(CONF_SEL_DR_56), .D(DL_NW_05_DR), .Q(DL_NW_DR_06));
+Door_Reg11 DR_NE_05_06(.CLK(clk_56), .EN(CONF_SEL_DR_56), .D(DL_NE_05_DR), .Q(DL_NE_DR_06));
+   
+ROW ROW_05 (
+	.CONF_ALU		(CONF_ALU_05),
+	.CONF_SEL_A		(CONF_SEL_A_05),
+	.CONF_SEL_B		(CONF_SEL_B_05),
+	.CONF_SE		(CONF_SE_05),
+	.CONF_SEL_A_N	(CONF_SEL_A_06),
+	.CONF_SEL_B_N	(CONF_SEL_B_06),
+	.CONF_SE_N		(CONF_SE_06),
+	.IN_NORTH		(CH_A_06_05),
+	.IN_SOUTH		(CH_A_DR_05),
+	.IN_DL_S		(DL_N_DR_05),
+	.IN_DL_SW		(DL_NE_DR_05),
+	.IN_DL_SE		(DL_NW_DR_05),
+	.IN_CONST_A		(CONST_A_5_EXT),
+	.IN_CONST_B		(CONST_B_5_EXT),
+	.OUT_NORTH		(CH_A_05_DR),
+	.OUT_SOUTH		(CH_A_05_04),
+	.OUT_DL_N		(DL_N_05_DR),
+	.OUT_DL_NW		(DL_NW_05_DR),
+	.OUT_DL_NE		(DL_NE_05_DR)
+);
+   
+Door_Reg12 DR_A_04_05(.CLK(clk_45), .EN(CONF_SEL_DR_45), .D(CH_A_04_DR), .Q(CH_A_DR_05));
+Door_Reg12 DR_N_04_05(.CLK(clk_45), .EN(CONF_SEL_DR_45), .D(DL_N_04_DR), .Q(DL_N_DR_05));
+Door_Reg11 DR_NW_04_05(.CLK(clk_45), .EN(CONF_SEL_DR_45), .D(DL_NW_04_DR), .Q(DL_NW_DR_05));
+Door_Reg11 DR_NE_04_05(.CLK(clk_45), .EN(CONF_SEL_DR_45), .D(DL_NE_04_DR), .Q(DL_NE_DR_05));
+
+ROW ROW_04 (
+	.CONF_ALU		(CONF_ALU_04),
+	.CONF_SEL_A		(CONF_SEL_A_04),
+	.CONF_SEL_B		(CONF_SEL_B_04),
+	.CONF_SE		(CONF_SE_04),
+	.CONF_SEL_A_N	(CONF_SEL_A_05),
+	.CONF_SEL_B_N	(CONF_SEL_B_05),
+	.CONF_SE_N		(CONF_SE_05),
+	.IN_NORTH		(CH_A_05_04),
+	.IN_SOUTH		(CH_A_DR_04),
+	.IN_DL_S		(DL_N_DR_04),
+	.IN_DL_SW		(DL_NE_DR_04),
+	.IN_DL_SE		(DL_NW_DR_04),
+	.IN_CONST_A		(CONST_A_4_EXT),
+	.IN_CONST_B		(CONST_B_4_EXT),
+	.OUT_NORTH		(CH_A_04_DR),
+	.OUT_SOUTH		(CH_A_04_03),
+	.OUT_DL_N		(DL_N_04_DR),
+	.OUT_DL_NW		(DL_NW_04_DR),
+	.OUT_DL_NE		(DL_NE_04_DR)
+);
+
+Door_Reg12 DR_A_03_04(.CLK(clk_34), .EN(CONF_SEL_DR_34), .D(CH_A_03_DR), .Q(CH_A_DR_04));
+Door_Reg12 DR_N_03_04(.CLK(clk_34), .EN(CONF_SEL_DR_34), .D(DL_N_03_DR), .Q(DL_N_DR_04));
+Door_Reg11 DR_NW_03_04(.CLK(clk_34), .EN(CONF_SEL_DR_34), .D(DL_NW_03_DR), .Q(DL_NW_DR_04));
+Door_Reg11 DR_NE_03_04(.CLK(clk_34), .EN(CONF_SEL_DR_34), .D(DL_NE_03_DR), .Q(DL_NE_DR_04));
+   
+ROW ROW_03 (
+	.CONF_ALU		(CONF_ALU_03),
+	.CONF_SEL_A		(CONF_SEL_A_03),
+	.CONF_SEL_B		(CONF_SEL_B_03),
+	.CONF_SE		(CONF_SE_03),
+	.CONF_SEL_A_N	(CONF_SEL_A_04),
+	.CONF_SEL_B_N	(CONF_SEL_B_04),
+	.CONF_SE_N		(CONF_SE_04),
+	.IN_NORTH		(CH_A_04_03),
+	.IN_SOUTH		(CH_A_DR_03),
+	.IN_DL_S		(DL_N_DR_03),
+	.IN_DL_SW		(DL_NE_DR_03),
+	.IN_DL_SE		(DL_NW_DR_03),
+	.IN_CONST_A		(CONST_A_3_EXT),
+	.IN_CONST_B		(CONST_B_3_EXT),
+	.OUT_NORTH		(CH_A_03_DR),
+	.OUT_SOUTH		(CH_A_03_02),
+	.OUT_DL_N		(DL_N_03_DR),
+	.OUT_DL_NW		(DL_NW_03_DR),
+	.OUT_DL_NE		(DL_NE_03_DR)
+);
+   
+Door_Reg12 DR_A_02_03(.CLK(clk_23), .EN(CONF_SEL_DR_23), .D(CH_A_02_DR), .Q(CH_A_DR_03));
+Door_Reg12 DR_N_02_03(.CLK(clk_23), .EN(CONF_SEL_DR_23), .D(DL_N_02_DR), .Q(DL_N_DR_03));
+Door_Reg11 DR_NW_02_03(.CLK(clk_23), .EN(CONF_SEL_DR_23), .D(DL_NW_02_DR), .Q(DL_NW_DR_03));
+Door_Reg11 DR_NE_02_03(.CLK(clk_23), .EN(CONF_SEL_DR_23), .D(DL_NE_02_DR), .Q(DL_NE_DR_03));
+   
+ROW ROW_02 (
+	.CONF_ALU		(CONF_ALU_02),
+	.CONF_SEL_A		(CONF_SEL_A_02),
+	.CONF_SEL_B		(CONF_SEL_B_02),
+	.CONF_SE		(CONF_SE_02),
+	.CONF_SEL_A_N	(CONF_SEL_A_03),
+	.CONF_SEL_B_N	(CONF_SEL_B_03),
+	.CONF_SE_N		(CONF_SE_03),
+	.IN_NORTH		(CH_A_03_02),
+	.IN_SOUTH		(CH_A_DR_02),
+	.IN_DL_S		(DL_N_DR_02),
+	.IN_DL_SW		(DL_NE_DR_02),
+	.IN_DL_SE		(DL_NW_DR_02),
+	.IN_CONST_A		(CONST_A_2_EXT),
+	.IN_CONST_B		(CONST_B_2_EXT),
+	.OUT_NORTH		(CH_A_02_DR),
+	.OUT_SOUTH		(CH_A_02_01),
+	.OUT_DL_N		(DL_N_02_DR),
+	.OUT_DL_NW		(DL_NW_02_DR),
+	.OUT_DL_NE		(DL_NE_02_DR)
+);
+   
+Door_Reg12 DR_A_01_02(.CLK(clk_12), .EN(CONF_SEL_DR_12), .D(CH_A_01_DR), .Q(CH_A_DR_02));
+Door_Reg12 DR_N_01_02(.CLK(clk_12), .EN(CONF_SEL_DR_12), .D(DL_N_01_DR), .Q(DL_N_DR_02));
+Door_Reg11 DR_NW_01_02(.CLK(clk_12), .EN(CONF_SEL_DR_12), .D(DL_NW_01_DR), .Q(DL_NW_DR_02));
+Door_Reg11 DR_NE_01_02(.CLK(clk_12), .EN(CONF_SEL_DR_12), .D(DL_NE_01_DR), .Q(DL_NE_DR_02));
+   
+ROW ROW_01 (
+   	.CONF_ALU		(CONF_ALU_01),
+	.CONF_SEL_A		(CONF_SEL_A_01),
+	.CONF_SEL_B		(CONF_SEL_B_01),
+	.CONF_SE		(CONF_SE_01),
+	.CONF_SEL_A_N	(CONF_SEL_A_02),
+	.CONF_SEL_B_N	(CONF_SEL_B_02),
+	.CONF_SE_N		(CONF_SE_02),
+	.IN_NORTH		(CH_A_02_01),
+	.IN_SOUTH		(CH_A_DR_01),
+	.IN_DL_S		(DL_N_DR_01),
+	.IN_DL_SW		(DL_NE_DR_01),
+	.IN_DL_SE		(DL_NW_DR_01),
+	.IN_CONST_A		(CONST_A_1_EXT),
+	.IN_CONST_B		(CONST_B_1_EXT),
+	.OUT_NORTH		(CH_A_01_DR),
+	.OUT_SOUTH		(CH_A_01_00),
+	.OUT_DL_N		(DL_N_01_DR),
+	.OUT_DL_NW		(DL_NW_01_DR),
+	.OUT_DL_NE		(DL_NE_01_DR)
+);
+   
+Door_Reg12 DR_A_00_01(.CLK(clk_01), .EN(CONF_SEL_DR_01), .D(CH_A_00_DR), .Q(CH_A_DR_01));
+Door_Reg12 DR_N_00_01(.CLK(clk_01), .EN(CONF_SEL_DR_01), .D(DL_N_00_DR), .Q(DL_N_DR_01));
+Door_Reg11 DR_NW_00_01(.CLK(clk_01), .EN(CONF_SEL_DR_01), .D(DL_NW_00_DR), .Q(DL_NW_DR_01));
+Door_Reg11 DR_NE_00_01(.CLK(clk_01), .EN(CONF_SEL_DR_01), .D(DL_NE_00_DR), .Q(DL_NE_DR_01));
+   
+   ROW ROW_00 (
+	.CONF_ALU		(CONF_ALU_00),
+	.CONF_SEL_A		(CONF_SEL_A_00),
+	.CONF_SEL_B		(CONF_SEL_B_00),
+	.CONF_SE		(CONF_SE_00),
+	.CONF_SEL_A_N	(CONF_SEL_A_01),
+	.CONF_SEL_B_N	(CONF_SEL_B_01),
+	.CONF_SE_N		(CONF_SE_01),
+	.IN_NORTH		(CH_A_01_00),
+	.IN_SOUTH		(CH_A_IN_00),
+	.IN_DL_S		(DL_N_XX_00),
+	.IN_DL_SW		(DL_NE_XX_00),
+	.IN_DL_SE		(DL_NW_XX_00),
+	.IN_CONST_A		(CONST_A_0_EXT),
+	.IN_CONST_B		(CONST_B_0_EXT),
+	.OUT_NORTH		(CH_A_00_DR),
+	.OUT_SOUTH		(CH_A_00_OUT),
+	.OUT_DL_N		(DL_N_00_DR),
+	.OUT_DL_NW		(DL_NW_00_DR),
+	.OUT_DL_NE		(DL_NE_00_DR)
+   );
+   
+   // ROW ROW[`PE_ROW_NUM_RNG] (
+   // 				     .CONF_ALU          (CONF_ALU_07, CONF_ALU_06, CONF_ALU_05, CONF_ALU_04,
+   // 							 CONF_ALU_03, CONF_ALU_02, CONF_ALU_01, CONF_ALU_00),
+   // 				     .CONF_SEL_A        (CONF_SEL_A_07, CONF_SEL_A_06, CONF_SEL_A_05, CONF_SEL_A_04,
+   // 							 CONF_SEL_A_03, CONF_SEL_A_02, CONF_SEL_A_01, CONF_SEL_A_00),
+   // 				     .CONF_SEL_B        (CONF_SEL_B_07, CONF_SEL_B_06, CONF_SEL_B_05, CONF_SEL_B_04,
+   // 							 CONF_SEL_B_03, CONF_SEL_B_02, CONF_SEL_B_01, CONF_SEL_B_00),
+   // 				     .CONF_SE           (CONF_SE_07, CONF_SE_06, CONF_SE_05, CONF_SE_04,
+   // 							 CONF_SE_03, CONF_SE_02, CONF_SE_01, CONF_SE_00),
+
+   // 				     .IN_NORTH           ({CH_A_XX_07, CH_A_07_06, CH_A_06_05, CH_A_05_04,   
+   // 							  CH_A_04_03, CH_A_03_02, CH_A_02_01, CH_A_01_00}),
+   // 				     .IN_SOUTH           ({CH_A_06_07, CH_A_05_06, CH_A_04_05, CH_A_03_04,   
+   // 							  CH_A_02_03, CH_A_01_02, CH_A_00_01, CH_A_IN_00}   ),
+   // 				     .IN_DL_S           ({DL_N_06_07, DL_N_05_06, DL_N_04_05, DL_N_03_04,
+   // 							  DL_N_02_03, DL_N_01_02, DL_N_00_01, DL_N_XX_00}), 
+   // 				     .IN_DL_SW           ({DL_NE_06_07, DL_NE_05_06, DL_NE_04_05, DL_NE_03_04,
+   // 							  DL_NE_02_03, DL_NE_01_02, DL_NE_00_01, DL_NE_XX_00}), 
+   // 				     .IN_DL_SE           ({DL_NW_06_07, DL_NW_05_06, DL_NW_04_05, DL_NW_03_04,
+   // 							  DL_NW_02_03, DL_NW_01_02, DL_NW_00_01, DL_NW_XX_00}), 
+
+   // 				     .IN_CONST_A        ({CONST_A_7_EXT, CONST_A_6_EXT, CONST_A_5_EXT, CONST_A_4_EXT, 
+   // 							  CONST_A_3_EXT, CONST_A_2_EXT, CONST_A_1_EXT, CONST_A_0_EXT}),
+   // 				     .IN_CONST_B        ({CONST_B_7_EXT, CONST_B_6_EXT, CONST_B_5_EXT, CONST_B_4_EXT, 
+   // 							  CONST_B_3_EXT, CONST_B_2_EXT, CONST_B_1_EXT, CONST_B_0_EXT}),
+
+   // 				     .OUT_NORTH          ({CH_A_07_XX, CH_A_06_07, CH_A_05_06, CH_A_04_05,
+   // 							  CH_A_03_04, CH_A_02_03, CH_A_01_02, CH_A_00_01 }  ),
+   // 				     .OUT_SOUTH          ({CH_A_07_06,  CH_A_06_05, CH_A_05_04, CH_A_04_03,
+   // 							  CH_A_03_02, CH_A_02_01, CH_A_01_00, CH_A_00_OUT}  ),
+   // 				     .OUT_DL_N          ({DL_N_07_XX, DL_N_06_07, DL_N_05_06, DL_N_04_05,
+   // 							  DL_N_03_04, DL_N_02_03, DL_N_01_02, DL_N_00_01}),
+   // 				     .OUT_DL_NW          ({DL_NW_07_XX, DL_NW_06_07, DL_NW_05_06, DL_NW_04_05,
+   // 							  DL_NW_03_04, DL_NW_02_03, DL_NW_01_02, DL_NW_00_01}),
+   // 				     .OUT_DL_NE          ({DL_NE_07_XX, DL_NE_06_07, DL_NE_05_06, DL_NE_04_05,
+   // 							  DL_NE_03_04, DL_NE_02_03, DL_NE_01_02, DL_NE_00_01}),
+   // 				     );
+endmodule
+
+module Door_Reg12 (input [`DATA_12_B] D,
+		 input CLK,
+		 input EN,
+		 output [`DATA_12_B] Q);
+   reg [`DATA_12_B] 		  DREG;
+   
+   always @ (posedge CLK) begin
+      DREG <= D;
+   end
+   assign Q = (EN) ? DREG : D;
+   
+endmodule // Door_Reg12
+
+module Door_Reg11 (input [`DATA_11_B] D,
+		 input CLK,
+		 input EN,
+		 output [`DATA_11_B] Q);
+   reg [`DATA_12_B] 		  DREG;
+   
+   always @ (posedge CLK) begin
+      DREG <= D;
+   end
+   assign Q = (EN) ? DREG : D;
+   
+endmodule // Door_Reg11
+
+module Switch_clk (input clk,
+		   input en,
+		   output clk_af);
+   assign clk_af = en & clk;
+endmodule // Switch_clok
+
+// module Door_Reg (input [`DATA_B] D,
+// 		 // input RST_N,
+// 		 input CLK,
+// 		 input SEL,
+// 		 output [`DATA_B] Q);
+//    wire [`DATA_B] 		  master_out, slave_out;
+//    // wire [`DATA_2_B] 		  sel_in;
+
+//    DLATCH master(.c(~CLK), .d(D), .q(master_out));
+//    DLATCH slave(.c(CLK), .d(master_out), .q(slave_out));
+
+//    // assign sel_in = {slave_out, master_out};
+//    // assign Q = sel_in[(SEL+1)*`DATA_W:SEL*`DATA_W];
+//    assign Q = (SEL) ? slave_out : master_out;
+// endmodule // D_FF_LATCH
+
+// module DLATCH(c, d, r_n, q);
+//    input c, r_n;
+//    input [`DATA_B] d;
+//    output [`DATA_B] q;
+
+//    assign q = (c) ? d :
+// 	      q;
+//    // assign q = (~r_n) ? 0 :
+//    // 	      (c) ? d :
+//    // 	      q;
+// endmodule // DLATCH
+
+// module Switch_clk (input clk_bf0,
+// 		    input clk_bf1,
+// 		   input sel,
+// 		   output clk_af);
+//    assign clk_af = (sel) ? clk_bf1 : clk_bf0;
+// endmodule // Switch_clok

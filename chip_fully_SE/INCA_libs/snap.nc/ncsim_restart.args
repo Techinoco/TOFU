@@ -1,0 +1,23 @@
+//
+// File created by:  ncverilog
+// Do not modify this file
+//
+-MESSAGES
++EMGRLOG
+ncverilog.log
+-XLSTIME
+1431503033
+-XLKEEP
+-XLMODE
+./INCA_libs/irun.lnx8664.10.20.nc
+-RUNMODE
+-CDSLIB
+./INCA_libs/irun.lnx8664.10.20.nc/cds.lib
+-HDLVAR
+./INCA_libs/irun.lnx8664.10.20.nc/hdl.var
+-XLNAME
+ncverilog
+-XLVERSION
+"TOOL:	ncverilog	10.20-s131"
+-XLNAME
+./INCA_libs/irun.lnx8664.10.20.nc/neutrino_33722
