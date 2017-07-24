@@ -80,18 +80,18 @@ module PE (
 
    assign OUT_DL_N =	(CONF_SEL_A_N == `CONF_SEL_DL_S         ||
 						 CONF_SEL_B_N == `CONF_SEL_DL_S         ||
-						 CONF_SE_N[9:7] == `CONF_NORTH_SW_DL_S  ||
-						 CONF_SE_N[4:2] == `CONF_EAST_SW_DL_S   ||
-						 CONF_SE_N[1:0] == `CONF_WEST_SW_DL_S     ) ? ALU_OUT: 25'b0;
+						 CONF_SE_N[9:7] == `CONF_SW_DL_S  ||
+						 CONF_SE_N[4:2] == `CONF_SW_DL_S   ||
+						 CONF_SE_N[1:0] == `CONF_SW_DL_S     ) ? ALU_OUT: 25'b0;
 
    assign OUT_DL_NW  =  (CONF_SEL_A_NW == `CONF_SEL_DL_SE        ||
 						 CONF_SEL_B_NW == `CONF_SEL_DL_SE        ||
-						 CONF_SE_NW[9:7] == `CONF_NORTH_SW_DL_SE ||
-						 CONF_SE_NW[1:0] == `CONF_WEST_SW_DL_SE    ) ? ALU_OUT: 25'b0;
+						 CONF_SE_NW[9:7] == `CONF_SW_DL_SE ||
+						 CONF_SE_NW[1:0] == `CONF_SW_DL_SE    ) ? ALU_OUT: 25'b0;
 
    assign OUT_DL_NE  =  (CONF_SEL_A_NE == `CONF_SEL_DL_SW        ||
 						 CONF_SEL_B_NE == `CONF_SEL_DL_SW        ||
-						 CONF_SE_NE[9:7] == `CONF_NORTH_SW_DL_SW ||
-						 CONF_SE_NE[4:2] == `CONF_EAST_SW_DL_SW    ) ? ALU_OUT: 25'b0;
+						 CONF_SE_NE[9:7] == `CONF_SW_DL_SW ||
+						 CONF_SE_NE[4:2] == `CONF_SW_DL_SW    ) ? ALU_OUT: 25'b0;
 
 endmodule
