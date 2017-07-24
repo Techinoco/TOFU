@@ -15,7 +15,7 @@ module PE (
   input  [`CONF_SEL_B  ] CONF_SEL_A_NE,
   input  [`CONF_SEL_B  ] CONF_SEL_B_NE,
   input  [`CONF_SE_B   ] CONF_SE_NE,
-  
+
   input  [`DATA_B      ] IN_NORTH,
   input  [`DATA_B      ] IN_SOUTH,
   input  [`DATA_B      ] IN_EAST,
@@ -25,7 +25,7 @@ module PE (
   input  [`DATA_B      ] IN_DL_SW,
   input  [`DATA_B      ] IN_CONST_A,
   input  [`DATA_B      ] IN_CONST_B,
-  
+
   output [`DATA_B      ] OUT_NORTH,
   output [`DATA_B      ] OUT_SOUTH,
   output [`DATA_B      ] OUT_EAST,
@@ -34,9 +34,9 @@ module PE (
   output [`DATA_B      ] OUT_DL_NE,
   output [`DATA_B      ] OUT_DL_NW
 );
-  
+
   wire [`DATA_B] ALU_IN_A, ALU_IN_B, ALU_OUT;
-  
+
   SE SE_0 (
     .CONF_SE           (CONF_SE          ),
 
@@ -49,13 +49,13 @@ module PE (
     .IN_DL_SE          (IN_DL_SE         ),
     .IN_DL_SW          (IN_DL_SW         ),
     .IN_CONST_A        (IN_CONST_A       ),
-
+    .IN_CONST_B        (IN_CONST_B       ),
     .OUT_NORTH         (OUT_NORTH        ),
     .OUT_SOUTH         (OUT_SOUTH        ),
     .OUT_EAST          (OUT_EAST         ),
     .OUT_WEST          (OUT_WEST         )
   );
-  
+
   ALU_SEL ALU_SEL_0 (
     .CONF_SEL_A        (CONF_SEL_A       ),
     .CONF_SEL_B        (CONF_SEL_B       ),
@@ -70,7 +70,7 @@ module PE (
     .OUT_A             (ALU_IN_A         ),
     .OUT_B             (ALU_IN_B         )
   );
-  
+
   ALU ALU_0 (
     .CONF_ALU          (CONF_ALU         ),
     .IN_A              (ALU_IN_A         ),
@@ -83,12 +83,12 @@ module PE (
 						 CONF_SE_N[9:7] == `CONF_NORTH_SW_DL_S  ||
 						 CONF_SE_N[4:2] == `CONF_EAST_SW_DL_S   ||
 						 CONF_SE_N[1:0] == `CONF_WEST_SW_DL_S     ) ? ALU_OUT: 25'b0;
-   
+
    assign OUT_DL_NW  =  (CONF_SEL_A_NW == `CONF_SEL_DL_SE        ||
 						 CONF_SEL_B_NW == `CONF_SEL_DL_SE        ||
 						 CONF_SE_NW[9:7] == `CONF_NORTH_SW_DL_SE ||
 						 CONF_SE_NW[1:0] == `CONF_WEST_SW_DL_SE    ) ? ALU_OUT: 25'b0;
-   
+
    assign OUT_DL_NE  =  (CONF_SEL_A_NE == `CONF_SEL_DL_SW        ||
 						 CONF_SEL_B_NE == `CONF_SEL_DL_SW        ||
 						 CONF_SE_NE[9:7] == `CONF_NORTH_SW_DL_SW ||

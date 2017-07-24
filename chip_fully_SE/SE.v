@@ -13,6 +13,7 @@ module SE(
   input      [`DATA_B   ] IN_DL_SW,  // from south west PE
   input      [`DATA_B   ] IN_CONST_A, // if input data of SE include constB,
                                       // const data for North_Output need 1 more bit width.
+  input       [`DATA_B] IN_CONST_B,
   output reg [`DATA_B   ] OUT_NORTH,
   output reg [`DATA_B   ] OUT_SOUTH,
   output reg [`DATA_B   ] OUT_EAST,
