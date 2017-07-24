@@ -568,7 +568,7 @@
 `define OP_ADDI 4'b0100
 `define OP_LD_ADDL 4'b0101
 `define OP_ST_ADDS 4'b0110
-`define OP_LD_ST_ADD'b0111
+`define OP_LD_ST_ADD 4'b0111
 `define OP_BEZ 4'b1000
 `define OP_BEZD 4'b1001
 `define OP_BNZ 4'b1010
