@@ -377,6 +377,7 @@
 `define CONF_SW_DL_SW           `CONF_SW_W'b0110
 `define CONF_SW_CONST_A           `CONF_SW_W'b0111
 `define CONF_SW_CONST_B           `CONF_SW_W'b1000
+`define CONF_SW_NONE			`CONF_SW_W'b1111
 
 ////////////////////////////////////////////////////////////////
 //    GLOBAL ADDRESS AND DATA
